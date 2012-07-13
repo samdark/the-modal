@@ -11,7 +11,7 @@ If the box is modal then:
 Facebook and vk.com photo modals are working like that and I think
 it's the right way to go.
 
-Before describing features and API here's [the demo](http://rmcreative.ru/playground/modals_plugin/).
+Before describing features and API here's [the demo](http://rmcreative.ru/playground/modals_plugin/demo.html).
 
 Features
 --------
