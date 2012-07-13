@@ -1,0 +1,28 @@
+.lock {
+    /* when modal is opened we're removing scrollbars from the main content */
+    overflow: hidden;
+}
+
+.shim {
+    /* shim will stay fixed and will take all the space available */
+    position: fixed;
+    bottom: 0; left: 0; top: 0; right: 0;
+
+    /* if modal content doesn't fit inside the shim, display scrollbars */
+    overflow: auto;
+
+    /* allow one-finger iPad scrolling */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* fix for iPad glitches */
+.shim > * {
+    -webkit-transform: translateZ(0px);
+}
+
+.shim {
+    background: rgba(0,0,0,0.5);
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000); /* IE6–IE8 */
+    zoom: 1;
+}
