@@ -55,9 +55,7 @@
 				var modal = $('<div class="shim" />').prependTo('body');
 
 				if(el) {
-					var newEl = $(el).clone(true);
-					newEl.appendTo(modal).show();
-					newEl.attr('tabindex',-1).focus();
+					$(el).clone(true).appendTo(modal).show();
 				}
 
 				if(localOptions.closeOnEsc) {
