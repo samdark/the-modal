@@ -55,7 +55,7 @@
 				var modal = $('<div class="shim" />').prependTo('body');
 
 				if(el) {
-					$(el).clone(true).appendTo(modal).show();
+					var cln = $(el).clone(true).appendTo(modal).show();
 				}
 
 				if(localOptions.closeOnEsc) {
@@ -79,7 +79,7 @@
 				}
 
 				if(localOptions.onOpen) {
-					localOptions.onOpen(el, localOptions);
+					localOptions.onOpen(cln, localOptions);
 				}
 			},
 			close: function() {
