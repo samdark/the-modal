@@ -12,8 +12,9 @@
 	var pluginNamespace = 'the-modal',
 		// global defaults
     	defaults = {
+			overlayClass: 'themodal-overlay',
 			closeOnEsc: true,
-			//closeOnShimClick: false,
+			//closeOnOverlayClick: false,
 
 			onClose: null,
 			onOpen: null
@@ -52,7 +53,7 @@
 
 				getContainer().addClass('lock');
 
-				var modal = $('<div class="shim" />').prependTo('body');
+				var modal = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 
 				if(el) {
 					var cln = $(el).clone(true).appendTo(modal).show();
@@ -67,14 +68,14 @@
 				}
 
 				$(document).bind("touchmove",function(e){
-					if(!$(e).parents('.shim')) {
+					if(!$(e).parents('.' + localOptions.overlayClass)) {
 						e.preventDefault();
 					}
 				});
 
-				if(localOptions.closeOnShimClick) {
+				if(localOptions.closeOnOverlayClick) {
 					$('body').bind('click.'+pluginNamespace, function(e){
-						console.debug('shim');
+						console.debug(localOptions.overlayClass);
 					});
 				}
 
@@ -83,9 +84,9 @@
 				}
 			},
 			close: function() {
-				var shim = $('.shim');
-				var el = shim.children().get(0);
 				var localOptions = $.extend({}, defaults, $(el).data(), options);
+				var shim = $('.' + localOptions.overlayClass);
+				var el = shim.children().get(0);
 
 				shim.remove();
 
