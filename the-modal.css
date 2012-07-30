@@ -1,28 +1,33 @@
 .lock {
-    /* when modal is opened we're removing scrollbars from the main content */
-    overflow: hidden;
+	/* when modal is opened we're removing scrollbars from the main content */
+	overflow: hidden;
 }
 
 .themodal-overlay {
-    /* shim will stay fixed and will take all the space available */
-    position: fixed;
-    bottom: 0; left: 0; top: 0; right: 0;
+	/* overlay will stay fixed and will take all the space available */
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 100;
 
-    /* if modal content doesn't fit inside the shim, display scrollbars */
-    overflow: auto;
+	/* if modal content doesn't fit inside the overlay, display scrollbars */
+	overflow: auto;
 
-    /* allow one-finger iPad scrolling */
-    -webkit-overflow-scrolling: touch;
+	/* allow one-finger iPad scrolling */
+	-webkit-overflow-scrolling: touch;
+
 }
 
 /* fix for iPad glitches */
 .themodal-overlay > * {
-    -webkit-transform: translateZ(0px);
+	-webkit-transform: translateZ(0px);
 }
 
 .themodal-overlay {
-    background: rgba(0,0,0,0.5);
-
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000); /* IE6–IE8 */
-    zoom: 1;
+	background: rgba(0, 0, 0, 0.5);
+	/* IE6–IE8 */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #7F000000, endColorstr = #7F000000);
+	zoom: 1;
 }
