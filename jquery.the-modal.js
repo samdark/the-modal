@@ -13,8 +13,9 @@
 		// global defaults
     	defaults = {
 			overlayClass: 'themodal-overlay',
+
 			closeOnEsc: true,
-			//closeOnOverlayClick: false,
+			closeOnOverlayClick: true,
 
 			onClose: null,
 			onOpen: null
@@ -67,17 +68,20 @@
 					});
 				}
 
+				if(localOptions.closeOnOverlayClick) {
+					cln.on('click.' + pluginNamespace, function(e){
+						return false;
+					});
+					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
+						$.modal().close();
+					});
+				}
+
 				$(document).bind("touchmove",function(e){
 					if(!$(e).parents('.' + localOptions.overlayClass)) {
 						e.preventDefault();
 					}
 				});
-
-				if(localOptions.closeOnOverlayClick) {
-					$('body').bind('click.'+pluginNamespace, function(e){
-						console.debug(localOptions.overlayClass);
-					});
-				}
 
 				if(localOptions.onOpen) {
 					localOptions.onOpen(cln, localOptions);
