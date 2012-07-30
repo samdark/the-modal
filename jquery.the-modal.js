@@ -12,7 +12,7 @@
 	var pluginNamespace = 'the-modal',
 		// global defaults
     	defaults = {
-			overlayClass: 'overlay',
+			overlayClass: 'themodal-overlay',
 			closeOnEsc: true,
 			//closeOnOverlayClick: false,
 
@@ -53,7 +53,7 @@
 
 				getContainer().addClass('lock');
 
-				var modal = $('<div></div>').addClass(localOptions.overlayClass).prependTo('body');
+				var modal = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 
 				if(el) {
 					var cln = $(el).clone(true).appendTo(modal).show();
