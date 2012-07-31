@@ -16,9 +16,12 @@
 
 
 /* Page visual styles, these aren't important */
+html {
+	padding: 20px;
+}
 body {
-    font-family: Georgia;
-    width: 800px;
+    font-family: Georgia sans-serif;
+    width: 100%;
 }
 
 li {
