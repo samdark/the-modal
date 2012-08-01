@@ -70,7 +70,7 @@
 
 				if(localOptions.closeOnOverlayClick) {
 					cln.on('click.' + pluginNamespace, function(e){
-						return false;
+						e.stopPropagation();
 					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
 						$.modal().close();
