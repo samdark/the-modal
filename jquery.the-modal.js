@@ -46,18 +46,21 @@
 
 		return {
 			open: function(options) {
-				// close modal if opened
-				$.modal().close();
-
 				var el = els.get(0);
 				var localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 
 				getContainer().addClass('lock');
 
-				var modal = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
+				// close modal if opened
+				if($('.'+localOptions.overlayClass).length) {
+					$.modal().close();
+				}
+
+				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
+				overlay.data(pluginNamespace+'.options', options);
 
 				if(el) {
-					var cln = $(el).clone(true).appendTo(modal).show();
+					$(el).clone(true).appendTo(overlay).show();
 				}
 
 				if(localOptions.closeOnEsc) {
@@ -69,7 +72,7 @@
 				}
 
 				if(localOptions.closeOnOverlayClick) {
-					cln.on('click.' + pluginNamespace, function(e){
+					overlay.children().on('click.' + pluginNamespace, function(e){
 						e.stopPropagation();
 					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
@@ -84,16 +87,17 @@
 				});
 
 				if(localOptions.onOpen) {
-					localOptions.onOpen(cln, localOptions);
+					localOptions.onOpen(overlay, localOptions);
 				}
 			},
 			close: function() {
-				var localOptions = $.extend({}, defaults, $(el).data(), options);
-				var shim = $('.' + localOptions.overlayClass);
-				var el = shim.children().get(0);
+				var el = els.get(0);
 
-				shim.remove();
+				var localOptions = $.extend({}, defaults, options);
+				var overlay = $('.' + localOptions.overlayClass);
+				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
 
+				overlay.remove();
 				getContainer().removeClass('lock');
 
 				if(localOptions.closeOnEsc) {
@@ -101,14 +105,14 @@
 				}
 
 				if(localOptions.onClose) {
-					localOptions.onClose(el, localOptions);
+					localOptions.onClose(overlay, localOptions);
 				}
 			}
 		};
 	}
 
 	$.modal = function(options){
-		return init($, options);
+		return init($(), options);
 	};
 
 	$.fn.modal = function(options) {

@@ -100,7 +100,10 @@ $.modal({
 
 // set some default options for specific dom element
 $('#login').modal({
-	closeOnESC: true
+	closeOnESC: true,
+	onClose: function(el, options) {
+		alert('Closed!');
+	}
 });
 ```
 
