@@ -80,7 +80,7 @@
 					});
 				}
 
-				$(document).bind("touchmove",function(e){
+				$(document).bind('touchmove.'+pluginNamespace,function(e){
 					if(!$(e).parents('.' + localOptions.overlayClass)) {
 						e.preventDefault();
 					}
