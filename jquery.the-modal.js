@@ -71,6 +71,18 @@
 					});
 				}
 
+				$(document).bind('keydown.'+pluginNamespace, function(e){
+					var modalKeys = [40,38,37,39,36,35,33,34];
+					if ($.inArray(e.which, modalKeys) >= 0) {
+						e.preventDefault();
+						$('.' + localOptions.overlayClass).trigger(e);
+					}
+				});
+
+				$('.' + localOptions.overlayClass).bind('keydown.'+pluginNamespace, function(e){
+					e.stopPropagation();
+				});
+
 				if(localOptions.closeOnOverlayClick) {
 					overlay.children().on('click.' + pluginNamespace, function(e){
 						e.stopPropagation();
