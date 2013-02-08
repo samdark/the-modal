@@ -21,15 +21,12 @@
 			onOpen: null
         };
 
-	function getContainer() {
-		var container = 'body';
-
-		// IE < 8
-		if(document.all && !document.querySelector) {
-			container = 'html';
-		}
-
-		return $(container);
+	function lockContainer() {
+		$('html,body').addClass('lock');
+	}
+	
+	function unlockContainer() {
+		$('html,body').removeClass('lock');
 	}
 
 	function init(els, options) {
@@ -54,7 +51,7 @@
 					$.modal().close();
 				}
 				
-				getContainer().addClass('lock');
+				lockContainer();
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
@@ -98,7 +95,7 @@
 				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
 
 				overlay.remove();
-				getContainer().removeClass('lock');
+				unlockContainer();
 
 				if(localOptions.closeOnEsc) {
 					$(document).unbind('keyup.'+pluginNamespace);
