@@ -49,12 +49,12 @@
 				var el = els.get(0);
 				var localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 
-				getContainer().addClass('lock');
-
 				// close modal if opened
 				if($('.'+localOptions.overlayClass).length) {
 					$.modal().close();
 				}
+				
+				getContainer().addClass('lock');
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
