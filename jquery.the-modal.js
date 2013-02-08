@@ -21,15 +21,12 @@
 			onOpen: null
         };
 
-	function getContainer() {
-		var container = 'body';
-
-		// IE < 8
-		if(document.all && !document.querySelector) {
-			container = 'html';
-		}
-
-		return $(container);
+	function lockContainer() {
+		$('html,body').addClass('lock');
+	}
+	
+	function unlockContainer() {
+		$('html,body').removeClass('lock');
 	}
 
 	function init(els, options) {
@@ -49,12 +46,12 @@
 				var el = els.get(0);
 				var localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 
-				getContainer().addClass('lock');
-
 				// close modal if opened
 				if($('.'+localOptions.overlayClass).length) {
 					$.modal().close();
 				}
+				
+				lockContainer();
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
@@ -98,7 +95,7 @@
 				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
 
 				overlay.remove();
-				getContainer().removeClass('lock');
+				unlockContainer();
 
 				if(localOptions.closeOnEsc) {
 					$(document).unbind('keyup.'+pluginNamespace);
