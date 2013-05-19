@@ -18,7 +18,9 @@
 			closeOnOverlayClick: true,
 
 			onClose: null,
-			onOpen: null
+			onOpen: null,
+
+			cloning: true
         };
 
 	function lockContainer() {
@@ -57,7 +59,13 @@
 				overlay.data(pluginNamespace+'.options', options);
 
 				if(el) {
-					$(el).clone(true).appendTo(overlay).show();
+					if (!localOptions.cloning) {
+						overlay.data(pluginNamespace+'.el', el);
+						$(el).data(pluginNamespace+'.parent', $(el).parent());
+						$(el).appendTo(overlay).show();
+					} else {
+						$(el).clone(true).appendTo(overlay).show();
+					}
 				}
 
 				if(localOptions.closeOnEsc) {
@@ -93,6 +101,13 @@
 				var localOptions = $.extend({}, defaults, options);
 				var overlay = $('.' + localOptions.overlayClass);
 				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
+
+				if (!localOptions.cloning) {
+					if (!el) {
+						el = overlay.data(pluginNamespace+'.el');
+					}
+					$(el).appendTo($(el).data(pluginNamespace+'.parent'));
+				}
 
 				overlay.remove();
 				unlockContainer();
