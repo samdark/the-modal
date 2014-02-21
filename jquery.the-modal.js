@@ -18,6 +18,7 @@
 			closeOnEsc: true,
 			closeOnOverlayClick: true,
 
+			onBeforeClose: null,
 			onClose: null,
 			onOpen: null,
 
@@ -131,6 +132,12 @@
 				var localOptions = $.extend({}, defaults, options);
 				var overlay = $('.' + localOptions.overlayClass);
 				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
+
+				if ($.isFunction(localOptions.onBeforeClose)) {
+					if (localOptions.onBeforeClose(overlay, localOptions) === false) {
+						return;
+					}
+				}
 
 				if (!localOptions.cloning) {
 					if (!el) {
