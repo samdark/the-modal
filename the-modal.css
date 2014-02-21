@@ -1,4 +1,4 @@
-.lock {
+.themodal-lock {
 	/* when modal is opened we're removing scrollbars from the main content */
 	overflow: hidden;
 }

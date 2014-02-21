@@ -12,6 +12,7 @@
 	var pluginNamespace = 'the-modal',
 		// global defaults
     	defaults = {
+			lockClass: 'themodal-lock',
 			overlayClass: 'themodal-overlay',
 
 			closeOnEsc: true,
@@ -22,16 +23,45 @@
 
 			cloning: true
         };
+    var oMargin = {};
+    var ieBodyTopMargin = 0;
 
-	function lockContainer() {
-		$('html,body').addClass('lock');
-	}
-	
-	function unlockContainer() {
-		$('html,body').removeClass('lock');
-	}
+    function isIE() {
+        return ((navigator.appName == 'Microsoft Internet Explorer') ||
+            (navigator.userAgent.match(/MSIE\s+\d+\.\d+/)) ||
+            (navigator.userAgent.match(/Trident\/\d+\.\d+/)));
+    }
 
-	function init(els, options) {
+    function lockContainer(options) {
+        var tags = $('html, body');
+        tags.each(function () {
+            var $this = $(this);
+            oMargin[$this.prop('tagName')] = parseInt($this.css('margin-right'));
+        });
+        var body = $('body');
+        var oWidth = body.outerWidth(true);
+        body.addClass(options.lockClass);
+        var sbWidth = body.outerWidth(true) - oWidth;
+        if (isIE()) {
+            ieBodyTopMargin = body.css('margin-top');
+            body.css('margin-top', 0);
+        }
+        tags.each(function () {
+            $(this).css('margin-right', oMargin[$(this).prop('tagName')] + sbWidth);
+        });
+    }
+
+    function unlockContainer(options) {
+        $('html, body').each(function () {
+            var $this = $(this);
+            $this.css('margin-right', oMargin[$this.prop('tagName')]).removeClass(options.lockClass);
+        });
+        if (isIE()) {
+            $('body').css('margin-top', ieBodyTopMargin);
+        }
+    }
+
+    function init(els, options) {
 		var modalOptions = options;
 
 		if(els.length) {
@@ -53,7 +83,7 @@
 					$.modal().close();
 				}
 				
-				lockContainer();
+				lockContainer(localOptions);
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
@@ -110,7 +140,7 @@
 				}
 
 				overlay.remove();
-				unlockContainer();
+				unlockContainer(localOptions);
 
 				if(localOptions.closeOnEsc) {
 					$(document).unbind('keyup.'+pluginNamespace);
