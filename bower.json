@@ -1,0 +1,15 @@
+{
+  "name": "the-modal",
+  "version": "1.0.0",
+  "homepage": "https://github.com/samdark/the-modal/",
+  "authors": [
+    "Alexander Makarov <sam@rmcreative.ru>"
+  ],
+  "description": "Proper modal boxes",
+  "main": "jquery.the-modal.js",
+  "keywords": [
+    "jquery",
+    "modal"
+  ],
+  "license": "BSD"
+}
