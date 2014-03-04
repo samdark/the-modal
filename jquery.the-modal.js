@@ -102,13 +102,13 @@
 				overlay.data(pluginNamespace+'.options', options);
 
 				if(el) {
-					var clonedEl = null;
+					var openedModalElement = null;
 					if (!localOptions.cloning) {
 						overlay.data(pluginNamespace+'.el', el);
 						$(el).data(pluginNamespace+'.parent', $(el).parent());
-						$(el).appendTo(overlay).show();
+						openedModalElement = $(el).appendTo(overlay).show();
 					} else {
-						clonedEl = $(el).clone(true).appendTo(overlay).show();
+						openedModalElement = $(el).clone(true).appendTo(overlay).show();
 					}
 				}
 
@@ -139,10 +139,9 @@
 					$(window).bind('onSelectAll',function(e){
 						e.parentEvent.preventDefault();
 
-						window.testel = el;
 						var range = null,
 							selection = null,
-							selectionElement = clonedEl.get(0);
+							selectionElement = openedModalElement.get(0);
 						if (document.body.createTextRange) { //ms
 							range = document.body.createTextRange();
 							range.moveToElementText(selectionElement);
