@@ -11,7 +11,7 @@
 
 	var pluginNamespace = 'the-modal',
 		// global defaults
-    	defaults = {
+		defaults = {
 			lockClass: 'themodal-lock',
 			overlayClass: 'themodal-overlay',
 
@@ -23,46 +23,46 @@
 			onOpen: null,
 
 			cloning: true
-        };
-    var oMargin = {};
-    var ieBodyTopMargin = 0;
+		};
+	var oMargin = {};
+	var ieBodyTopMargin = 0;
 
-    function isIE() {
-        return ((navigator.appName == 'Microsoft Internet Explorer') ||
-            (navigator.userAgent.match(/MSIE\s+\d+\.\d+/)) ||
-            (navigator.userAgent.match(/Trident\/\d+\.\d+/)));
-    }
+	function isIE() {
+		return ((navigator.appName == 'Microsoft Internet Explorer') ||
+			(navigator.userAgent.match(/MSIE\s+\d+\.\d+/)) ||
+			(navigator.userAgent.match(/Trident\/\d+\.\d+/)));
+	}
 
-    function lockContainer(options) {
-        var tags = $('html, body');
-        tags.each(function () {
-            var $this = $(this);
-            oMargin[$this.prop('tagName')] = parseInt($this.css('margin-right'));
-        });
-        var body = $('body');
-        var oWidth = body.outerWidth(true);
-        body.addClass(options.lockClass);
-        var sbWidth = body.outerWidth(true) - oWidth;
-        if (isIE()) {
-            ieBodyTopMargin = body.css('margin-top');
-            body.css('margin-top', 0);
-        }
-        tags.each(function () {
-            $(this).css('margin-right', oMargin[$(this).prop('tagName')] + sbWidth);
-        });
-    }
+	function lockContainer(options) {
+		var tags = $('html, body');
+		tags.each(function () {
+			var $this = $(this);
+			oMargin[$this.prop('tagName')] = parseInt($this.css('margin-right'));
+		});
+		var body = $('body');
+		var oWidth = body.outerWidth(true);
+		body.addClass(options.lockClass);
+		var sbWidth = body.outerWidth(true) - oWidth;
+		if (isIE()) {
+			ieBodyTopMargin = body.css('margin-top');
+			body.css('margin-top', 0);
+		}
+		tags.each(function () {
+			$(this).css('margin-right', oMargin[$(this).prop('tagName')] + sbWidth);
+		});
+	}
 
-    function unlockContainer(options) {
-        $('html, body').each(function () {
-            var $this = $(this);
-            $this.css('margin-right', oMargin[$this.prop('tagName')]).removeClass(options.lockClass);
-        });
-        if (isIE()) {
-            $('body').css('margin-top', ieBodyTopMargin);
-        }
-    }
+	function unlockContainer(options) {
+		$('html, body').each(function () {
+			var $this = $(this);
+			$this.css('margin-right', oMargin[$this.prop('tagName')]).removeClass(options.lockClass);
+		});
+		if (isIE()) {
+			$('body').css('margin-top', ieBodyTopMargin);
+		}
+	}
 
-    function init(els, options) {
+	function init(els, options) {
 		var modalOptions = options;
 
 		if(els.length) {
@@ -74,6 +74,18 @@
 			$.extend(defaults, modalOptions);
 		}
 
+		// on Ctrl+A click fire `onSelectAll` event
+		$(window).bind('keydown',function(e){
+			if (!(e.ctrlKey && e.keyCode == 65)) {
+				return true;
+			}
+
+			var selectAllEvent = new $.Event('onSelectAll');
+			selectAllEvent.parentEvent = e;
+			$(window).trigger(selectAllEvent);
+			return true;
+		});
+
 		return {
 			open: function(options) {
 				var el = els.get(0);
@@ -83,19 +95,20 @@
 				if($('.'+localOptions.overlayClass).length) {
 					$.modal().close();
 				}
-				
+
 				lockContainer(localOptions);
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
 
 				if(el) {
+					var openedModalElement = null;
 					if (!localOptions.cloning) {
 						overlay.data(pluginNamespace+'.el', el);
 						$(el).data(pluginNamespace+'.parent', $(el).parent());
-						$(el).appendTo(overlay).show();
+						openedModalElement = $(el).appendTo(overlay).show();
 					} else {
-						$(el).clone(true).appendTo(overlay).show();
+						openedModalElement = $(el).clone(true).appendTo(overlay).show();
 					}
 				}
 
@@ -121,6 +134,27 @@
 						e.preventDefault();
 					}
 				});
+
+				if(el) {
+					$(window).bind('onSelectAll',function(e){
+						e.parentEvent.preventDefault();
+
+						var range = null,
+							selection = null,
+							selectionElement = openedModalElement.get(0);
+						if (document.body.createTextRange) { //ms
+							range = document.body.createTextRange();
+							range.moveToElementText(selectionElement);
+							range.select();
+						} else if (window.getSelection) { //all others
+							selection = window.getSelection();
+							range = document.createRange();
+							range.selectNodeContents(selectionElement);
+							selection.removeAllRanges();
+							selection.addRange(range);
+						}
+					});
+				}
 
 				if(localOptions.onOpen) {
 					localOptions.onOpen(overlay, localOptions);
@@ -152,6 +186,8 @@
 				if(localOptions.closeOnEsc) {
 					$(document).unbind('keyup.'+pluginNamespace);
 				}
+
+				$(window).unbind('onSelectAll');
 
 				if(localOptions.onClose) {
 					localOptions.onClose(overlay, localOptions);
