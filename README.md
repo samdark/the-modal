@@ -29,7 +29,7 @@ Usage
 In order to use this plugin you need the following in the `head` section of your HTML:
 
 ```html
-<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.the-modal.js"></script>
 <link rel="stylesheet" type="text/css" href="the-modal.css" media="all" />
 ```

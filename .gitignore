@@ -11,3 +11,6 @@ nbproject
 
 # windows thumbnail cache
 Thumbs.db
+
+# Bower components cache
+bower_components
