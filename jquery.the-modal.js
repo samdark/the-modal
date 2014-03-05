@@ -9,6 +9,40 @@
 	"use strict";
 	/*jshint smarttabs:true*/
 
+	// :focusable expression, needed for tabindexes in modal
+	$.extend($.expr[':'],{
+		focusable: function(element){
+			var map, mapName, img,
+				nodeName = element.nodeName.toLowerCase(),
+				isTabIndexNotNaN = !isNaN($.attr(element,'tabindex'));
+			if ('area' === nodeName) {
+				map = element.parentNode;
+				mapName = map.name;
+				if (!element.href || !mapName || map.nodeName.toLowerCase() !== 'map') {
+					return false;
+				}
+				img = $('img[usemap=#' + mapName + ']')[0];
+				return !!img && visible(img);
+			}
+
+			var result = isTabIndexNotNaN;
+			if (/input|select|textarea|button|object/.test(nodeName)) {
+				result = !element.disabled;
+			} else if ('a' === nodeName) {
+				result = element.href || isTabIndexNotNaN;
+			}
+
+			return result && visible(element);
+
+			function visible(element) {
+				return $.expr.filters.visible(element) &&
+					!$(element).parents().addBack().filter(function() {
+						return $.css(this,'visibility') === 'hidden';
+					}).length;
+			}
+		}
+	});
+
 	var pluginNamespace = 'the-modal',
 		// global defaults
 		defaults = {
@@ -84,6 +118,14 @@
 			selectAllEvent.parentEvent = e;
 			$(window).trigger(selectAllEvent);
 			return true;
+		});
+
+		els.bind('keydown',function(e){
+			var modalFocusableElements = $(':focusable',$(this));
+			if(modalFocusableElements.filter(':last').is(':focus') && (e.which || e.keyCode) == 9){
+				e.preventDefault();
+				modalFocusableElements.filter(':first').focus();
+			}
 		});
 
 		return {
