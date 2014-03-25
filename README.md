@@ -90,6 +90,24 @@ $.modal().open({
 });
 ```
 
+### Available options (default values)
+
+```javascript
+$.modal({
+	lockClass: 'themodal-lock', // css class of locked container(body)
+	overlayClass: 'themodal-overlay', // css class of overlay
+
+	closeOnEsc: true,	// close modal on press ESC
+	closeOnOverlayClick: true,	// close overlay when clicked on it
+
+	onBeforeClose: null,	// callback function(overlay, localOptions){}, called before modal close, must be return bool(if true - close, if false - prevent closing)
+	onClose: null,	// callback function(overlay, localOptions){}, called after modal close
+	onOpen: null,	// callback function(overlay, localOptions){}, called after modal open
+
+	cloning: true	// clone modal dom element on open or toggle it's visibility
+});
+```
+
 ### Overriding options
 
 ```javascript
