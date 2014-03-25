@@ -94,17 +94,30 @@ $.modal().open({
 
 ```javascript
 $.modal({
-	lockClass: 'themodal-lock', // css class of locked container(body)
-	overlayClass: 'themodal-overlay', // css class of overlay
+	/* css class of locked container(body) */
+	lockClass: 'themodal-lock',
 
-	closeOnEsc: true,	// close modal on press ESC
-	closeOnOverlayClick: true,	// close overlay when clicked on it
+	/* css class of overlay */
+	overlayClass: 'themodal-overlay',
 
-	onBeforeClose: null,	// callback function(overlay, localOptions){}, called before modal close, must be return bool(if true - close, if false - prevent closing)
-	onClose: null,	// callback function(overlay, localOptions){}, called after modal close
-	onOpen: null,	// callback function(overlay, localOptions){}, called after modal open
+	/* close modal on press ESC */
+	closeOnEsc: true,
 
-	cloning: true	// clone modal dom element on open or toggle it's visibility
+	/* close overlay when clicked on it */
+	closeOnOverlayClick: true,
+
+	/* callback function(overlay, localOptions){}, called before modal close,
+	must be return bool(if true - close, if false - prevent closing) */
+	onBeforeClose: null,
+
+	/* callback function(overlay, localOptions){}, called after modal close */
+	onClose: null,
+
+	/* callback function(overlay, localOptions){}, called after modal open */
+	onOpen: null,
+
+	/* clone modal dom element on open or toggle it's visibility */
+	cloning: true
 });
 ```
 
