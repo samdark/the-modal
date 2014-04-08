@@ -135,7 +135,7 @@
 
 				// close modal if opened
 				if($('.'+localOptions.overlayClass).length) {
-					context.close();
+					$.modal().close();
 				}
 
 				lockContainer(localOptions);
