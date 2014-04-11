@@ -103,8 +103,7 @@
 			els.each(function(){
 				$(this).data(pluginNamespace+'.options', modalOptions);
 			});
-		}
-		else {
+		} else {
 			$.extend(defaults, modalOptions);
 		}
 
@@ -130,8 +129,9 @@
 
 		return {
 			open: function(options) {
-				var el = els.get(0);
-				var localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
+				var el = els.get(0),
+					context = this,
+					localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 
 				// close modal if opened
 				if($('.'+localOptions.overlayClass).length) {
@@ -157,7 +157,7 @@
 				if(localOptions.closeOnEsc) {
 					$(document).bind('keyup.'+pluginNamespace, function(e){
 						if(e.keyCode === 27) {
-							$.modal().close();
+							context.close();
 						}
 					});
 				}
@@ -167,7 +167,7 @@
 						e.stopPropagation();
 					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
-						$.modal().close();
+						context.close();
 					});
 				}
 
