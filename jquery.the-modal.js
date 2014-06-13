@@ -67,11 +67,11 @@
 			(navigator.userAgent.match(/Trident\/\d+\.\d+/)));
 	}
 
-	function lockContainer(options) {
+	function lockContainer(options, overlay) {
 		var tags = $('html, body');
 		tags.each(function () {
 			var $this = $(this);
-			oMargin[$this.prop('tagName')] = parseInt($this.css('margin-right'));
+			oMargin[$this.prop('tagName').toLowerCase()] = parseInt($this.css('margin-right'));
 		});
 		var body = $('body');
 		var oWidth = body.outerWidth(true);
@@ -81,15 +81,14 @@
 			ieBodyTopMargin = body.css('margin-top');
 			body.css('margin-top', 0);
 		}
-		tags.each(function () {
-			$(this).css('margin-right', oMargin[$(this).prop('tagName')] + sbWidth);
-		});
+		$('html').css('margin-right', oMargin['html'] + sbWidth);
+		overlay.css('left', 0 - sbWidth);
 	}
 
 	function unlockContainer(options) {
 		$('html, body').each(function () {
 			var $this = $(this);
-			$this.css('margin-right', oMargin[$this.prop('tagName')]).removeClass(options.lockClass);
+			$this.css('margin-right', oMargin[$this.prop('tagName').toLowerCase()]).removeClass(options.lockClass);
 		});
 		if (isIE()) {
 			$('body').css('margin-top', ieBodyTopMargin);
@@ -138,10 +137,10 @@
 					$.modal().close();
 				}
 
-				lockContainer(localOptions);
-
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
 				overlay.data(pluginNamespace+'.options', options);
+
+				lockContainer(localOptions, overlay);
 
 				if(el) {
 					var openedModalElement = null;
