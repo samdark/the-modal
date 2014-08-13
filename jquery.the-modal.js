@@ -155,7 +155,7 @@
 				if(localOptions.closeOnEsc) {
 					$(document).bind('keyup.'+pluginNamespace, function(e){
 						if(e.keyCode === 27) {
-                            $.modal().close();
+							$.modal().close();
 						}
 					});
 				}
@@ -165,7 +165,7 @@
 						e.stopPropagation();
 					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
-                        $.modal().close();
+						$.modal().close();
 					});
 				}
 
