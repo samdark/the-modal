@@ -129,7 +129,6 @@
 		return {
 			open: function(options) {
 				var el = els.get(0),
-					context = this,
 					localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 
 				// close modal if opened
@@ -138,7 +137,7 @@
 				}
 
 				var overlay = $('<div/>').addClass(localOptions.overlayClass).prependTo('body');
-				overlay.data(pluginNamespace+'.options', options);
+				overlay.data(pluginNamespace+'.options', localOptions);
 
 				lockContainer(localOptions, overlay);
 
@@ -156,7 +155,7 @@
 				if(localOptions.closeOnEsc) {
 					$(document).bind('keyup.'+pluginNamespace, function(e){
 						if(e.keyCode === 27) {
-							context.close();
+                            $.modal().close();
 						}
 					});
 				}
@@ -166,7 +165,7 @@
 						e.stopPropagation();
 					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
-						context.close();
+                        $.modal().close();
 					});
 				}
 
