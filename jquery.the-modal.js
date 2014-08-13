@@ -217,7 +217,7 @@
 					if (!el) {
 						el = overlay.data(pluginNamespace+'.el');
 					}
-					$(el).appendTo($(el).data(pluginNamespace+'.parent'));
+					$(el).hide().appendTo($(el).data(pluginNamespace+'.parent'));
 				}
 
 				overlay.remove();
