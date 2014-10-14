@@ -68,11 +68,6 @@
 	}
 
 	function lockContainer(options, overlay) {
-		var tags = $('html, body');
-		tags.each(function () {
-			var $this = $(this);
-			oMargin[$this.prop('tagName').toLowerCase()] = parseInt($this.css('margin-right'));
-		});
 		var body = $('body');
 		var oWidth = body.outerWidth(true);
 		body.addClass(options.lockClass);
@@ -81,17 +76,33 @@
 			ieBodyTopMargin = body.css('margin-top');
 			body.css('margin-top', 0);
 		}
-		$('html').css('margin-right', oMargin['html'] + sbWidth);
-		overlay.css('left', 0 - sbWidth);
+
+		if (sbWidth != 0) {
+			var tags = $('html, body');
+			tags.each(function () {
+				var $this = $(this);
+				oMargin[$this.prop('tagName').toLowerCase()] = parseInt($this.css('margin-right'));
+			});
+			$('html').css('margin-right', oMargin['html'] + sbWidth);
+			overlay.css('left', 0 - sbWidth);
+		}
 	}
 
 	function unlockContainer(options) {
-		$('html, body').each(function () {
-			var $this = $(this);
-			$this.css('margin-right', oMargin[$this.prop('tagName').toLowerCase()]).removeClass(options.lockClass);
-		});
 		if (isIE()) {
 			$('body').css('margin-top', ieBodyTopMargin);
+		}
+
+		var body = $('body');
+		var oWidth = body.outerWidth(true);
+		body.removeClass(options.lockClass);
+		var sbWidth = body.outerWidth(true) - oWidth;
+
+		if (sbWidth != 0) {
+			$('html, body').each(function () {
+				var $this = $(this);
+				$this.css('margin-right', oMargin[$this.prop('tagName').toLowerCase()])
+			});
 		}
 	}
 
