@@ -211,12 +211,10 @@
 					localOptions.onOpen(overlay, localOptions);
 				}
 			},
-			close: function() {
-				var el = els.get(0);
-
-				var localOptions = $.extend({}, defaults, options);
+			close: function(options) {
+				var el = els.get(0),
+				  localOptions = $.extend({}, defaults, $(el).data(pluginNamespace+'.options'), options);
 				var overlay = $('.' + localOptions.overlayClass);
-				$.extend(localOptions, overlay.data(pluginNamespace+'.options'));
 
 				if ($.isFunction(localOptions.onBeforeClose)) {
 					if (localOptions.onBeforeClose(overlay, localOptions) === false) {
