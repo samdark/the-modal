@@ -3,7 +3,7 @@
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  * @link https://github.com/samdark/the-modal
- * @version 1.0
+ * @version 0.0.14
  */
 ;(function($, window, document, undefined) {
 	"use strict";
