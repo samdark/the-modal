@@ -123,6 +123,10 @@
 				return true;
 			}
 
+			if ( $('input:focus, textarea:focus').length > 0 ) {
+			    return true;
+			}
+
 			var selectAllEvent = new $.Event('onSelectAll');
 			selectAllEvent.parentEvent = e;
 			$(window).trigger(selectAllEvent);
