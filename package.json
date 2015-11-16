@@ -1,0 +1,16 @@
+{
+  "name": "the-modal",
+  "version": "1.0.0",
+  "description": "The Modal =========",
+  "main": "jquery.the-modal.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samdark/the-modal.git"
+  },
+  "author": "samdark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samdark/the-modal/issues"
+  },
+  "homepage": "https://github.com/samdark/the-modal#readme"
+}
