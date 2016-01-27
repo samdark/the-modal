@@ -176,11 +176,10 @@
 				}
 
 				if(localOptions.closeOnOverlayClick) {
-					overlay.children().on('click.' + pluginNamespace, function(e){
-						e.stopPropagation();
-					});
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
-						$.modal().close(localOptions);
+						if (e.target.className == localOptions.overlayClass){
+							$.modal().close();
+						}
 					});
 				}
 
