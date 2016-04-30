@@ -178,7 +178,7 @@
 				if(localOptions.closeOnOverlayClick) {
 					$('.' + localOptions.overlayClass).on('click.' + pluginNamespace, function(e){
 						if (e.target.className == localOptions.overlayClass){
-							$.modal().close();
+							$.modal().close(localOptions);
 						}
 					});
 				}
